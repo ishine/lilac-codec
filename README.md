@@ -30,7 +30,7 @@ uv sync
 
 # Download the flagship checkpoint (uniform SWA of the last ten 1k-spaced
 # training snapshots) and place it at checkpoints/lilac_swa10.pt:
-curl -L https://huggingface.co/julianyi/lilac/resolve/main/lilac_swa10.pt \
+curl -L https://huggingface.co/julianyi1/lilac/resolve/main/lilac_swa10.pt \
   -o checkpoints/lilac_swa10.pt
 
 # One-command inference: resamples the input to 24 kHz mono, encodes,
