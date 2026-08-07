@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[oc]
+.pytest_cache/
+build/
+dist/
+wheels/
+*.egg-info
+
+# Model weights & runtime logs (anywhere in tree)
+*.pt
+*.log
+
+# Virtual environments
+.venv
+
+# Training artifacts
+logs/
+checkpoints/
+runs/
+checkpoints-from-vast/
+checkpoints-from-a5000/
+data/
+samples/
+
+# Eval outputs (generated, regenerable from checkpoints)
+results/
+
+# Codec install / smoke-test status
+codec_status_*.json
+
+# Externally-cloned baseline repos + their isolated envs
+baselines/_repos/
+baselines/_envs/
+
+# IDE
+.vscode/
+
+# Benchmarks and diagnostics
+bench/
+probes/
+diagnostics/
+# analysis/ holds tracked theory docs (*.md); ignore only bulky/intermediate subdirs
+analysis/data/
+analysis/diag/
+analysis/figures/
+analysis/scripts/
+
+# Scratchpads + backups
+SCRATCHPAD*
+*.bak
+ABSENCE_DIGEST.md
+
+# Local experiment notes (not for sharing)
+results-convnext.md
+
+# Local beamer presentation (not for sharing)
+presentation/
+
+# OS
+.DS_Store
+
+# Local diagnostics + per-run / per-eval inventories (not for sharing)
+diag_*.py
+runs.md
+evals.md
+review-actions.md
+
+# Claude Code session state
+.claude/

@@ -1,0 +1,22 @@
+[project]
+name = "lilac"
+version = "0.2.0"
+description = "Minimal PyTorch reproduction of the LILAC 0.75 kb/s speech codec"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "numpy==2.4.6",
+    "scipy==1.17.1",
+    "soundfile>=0.14.0",
+    "torch==2.11.0",
+    "torchaudio==2.11.0",
+]
+
+[tool.uv.sources]
+torch = { index = "pytorch" }
+torchaudio = { index = "pytorch" }
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true

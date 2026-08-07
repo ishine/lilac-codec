@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1020" viewBox="0 0 1600 1020" role="img" aria-labelledby="title desc">
+  <title id="title">LILAC: one audio slice becomes one code vector</title>
+  <desc id="desc">A reader-first diagram of LILAC showing how one 2560-sample audio slice passes through an invertible anti-imaging stem, is folded losslessly, partially kept through projective folds, quantized to a 20-number code, then decoded by predicting the missing coordinates and unfolding.</desc>
+  <defs>
+    <style>
+      .bg { fill: #fbfaf7; }
+      .ink { fill: #1f231f; }
+      .muted { fill: #62665e; }
+      .title { font: 800 34px Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; letter-spacing: 0; }
+      .h2 { font: 800 20px Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; letter-spacing: 0; }
+      .body { font: 16px Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif; letter-spacing: 0; }
+      .mono { font: 14px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0; }
+      .tiny { font: 11px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; letter-spacing: 0; }
+      .panel { fill: #ffffff; stroke: #d2d1c8; stroke-width: 1.2; }
+      .audio { fill: #f1e1c7; stroke: #8a6834; stroke-width: 1.4; }
+      .fold { fill: #dcebe1; stroke: #4d8069; stroke-width: 1.4; }
+      .keep { fill: #d9e6f7; stroke: #5074a4; stroke-width: 1.4; }
+      .free { fill: #f2dedd; stroke: #a15f5f; stroke-width: 1.4; }
+      .pred { fill: #eadff4; stroke: #7d5d9a; stroke-width: 1.4; }
+      .mix { fill: #eef4ef; stroke: #638974; stroke-width: 1.2; }
+      .decoder { fill: #dcebe1; stroke: #4d8069; stroke-width: 1.4; }
+      .grid { stroke: #91a096; stroke-width: 0.7; opacity: 0.55; }
+      .split { stroke: #a15f5f; stroke-width: 1; }
+      .arrow { stroke: #23271f; stroke-width: 1.9; fill: none; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); }
+      .soft { stroke: #777a72; stroke-width: 1.5; fill: none; stroke-dasharray: 6 5; marker-end: url(#softArrow); }
+      .purple { stroke: #735792; stroke-width: 1.8; fill: none; marker-end: url(#purpleArrow); }
+      .green { stroke: #2f735f; stroke-width: 2; fill: none; marker-end: url(#greenArrow); }
+    </style>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M1,1 L10,5.5 L1,10 Z" fill="#23271f"/>
+    </marker>
+    <marker id="softArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M1,1 L10,5.5 L1,10 Z" fill="#777a72"/>
+    </marker>
+    <marker id="purpleArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M1,1 L10,5.5 L1,10 Z" fill="#735792"/>
+    </marker>
+    <marker id="greenArrow" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto">
+      <path d="M1,1 L10,5.5 L1,10 Z" fill="#2f735f"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" width="1600" height="1020"/>
+
+  <text class="title ink" x="56" y="58">LILAC: one audio slice becomes one 20-number code</text>
+  <text class="body muted" x="58" y="88">Start with a 2560-sample window. Fold time into channels, keep only selected coordinates, quantize them, then decode by filling the missing coordinates and unfolding.</text>
+
+  <!-- Main story panel -->
+  <g transform="translate(56 126)">
+    <rect class="panel" x="0" y="0" width="1488" height="548" rx="12"/>
+
+    <text class="h2 ink" x="28" y="42">Encoder: fold first, compress later</text>
+    <text class="body muted" x="28" y="70">The early stages are just reshapes plus reversible mixing, so no information is lost until the red split stages.</text>
+
+    <!-- Audio chunk -->
+    <g transform="translate(32 126)">
+      <text class="mono ink" x="0" y="-20">one hop</text>
+      <rect class="audio" x="0" y="32" width="246" height="28" rx="4"/>
+      <path d="M10 46 C28 24 46 66 64 46 S100 24 118 46 S154 66 172 46 S210 24 236 46" stroke="#8a6834" stroke-width="2" fill="none"/>
+      <text class="mono ink" x="52" y="94">1 x 2560 samples</text>
+    </g>
+
+    <path class="arrow" d="M304 172 H356"/>
+
+    <!-- Lossless folds -->
+    <g transform="translate(382 96)">
+      <text class="mono ink" x="0" y="10">lossless folds</text>
+      <text class="tiny muted" x="0" y="30">same values, shorter time axis</text>
+
+      <g transform="translate(0 62)">
+        <rect class="fold" x="0" y="0" width="76" height="118" rx="5"/>
+        <g class="grid">
+          <path d="M15 0 V118 M30 0 V118 M45 0 V118 M60 0 V118"/>
+          <path d="M0 24 H76 M0 48 H76 M0 72 H76 M0 96 H76"/>
+        </g>
+        <text class="tiny ink" x="10" y="140">5 x 512</text>
+      </g>
+
+      <path class="arrow" d="M90 122 H128"/>
+
+      <g transform="translate(142 42)">
+        <rect class="fold" x="0" y="0" width="92" height="138" rx="5"/>
+        <g class="grid">
+          <path d="M18 0 V138 M36 0 V138 M54 0 V138 M72 0 V138"/>
+          <path d="M0 17 H92 M0 34 H92 M0 51 H92 M0 68 H92 M0 85 H92 M0 102 H92 M0 119 H92"/>
+        </g>
+        <text class="tiny ink" x="14" y="160">80 x 32</text>
+        <text class="tiny muted" x="0" y="178">x5, then four x2 folds</text>
+      </g>
+
+      <g transform="translate(0 224)">
+        <rect class="mix" x="0" y="0" width="238" height="94" rx="8"/>
+        <text class="mono ink" x="18" y="25">reversible transforms</text>
+        <text class="tiny muted" x="18" y="46">after x5: affine StemFlow anti-imaging stem</text>
+        <text class="tiny muted" x="18" y="63">each fold: orthogonal mix + additive coupling</text>
+        <text class="tiny muted" x="18" y="80">both directions use the same learned chart</text>
+      </g>
+    </g>
+
+    <path class="arrow" d="M626 172 H690"/>
+
+    <!-- Projective folds -->
+    <g transform="translate(714 96)">
+      <text class="mono ink" x="0" y="10">projective folds</text>
+      <text class="tiny muted" x="0" y="30">after each fold, keep blue and drop red</text>
+
+      <g transform="translate(0 42)">
+        <rect class="free" x="0" y="0" width="96" height="138" rx="5"/>
+        <rect class="keep" x="96" y="69" width="70" height="69" rx="5"/>
+        <line class="split" x1="96" y1="0" x2="96" y2="138"/>
+        <text class="tiny ink" x="14" y="160">160 x 16</text>
+        <text class="tiny ink" x="104" y="93">keep</text>
+        <text class="tiny ink" x="20" y="74">free</text>
+      </g>
+
+      <path class="arrow" d="M184 112 H226"/>
+
+      <g transform="translate(242 42)">
+        <rect class="free" x="0" y="0" width="118" height="138" rx="5"/>
+        <rect class="keep" x="118" y="118" width="44" height="20" rx="4"/>
+        <line class="split" x1="118" y1="0" x2="118" y2="138"/>
+        <text class="tiny ink" x="24" y="160">final: 160 x 1</text>
+        <text class="tiny ink" x="122" y="112">20</text>
+      </g>
+
+      <g transform="translate(0 224)">
+        <rect class="free" x="0" y="0" width="150" height="32" rx="5"/>
+        <text class="tiny ink" x="18" y="21">discarded during encode</text>
+        <rect class="keep" x="176" y="0" width="150" height="32" rx="5"/>
+        <text class="tiny ink" x="209" y="21">sent forward</text>
+      </g>
+    </g>
+
+    <path class="arrow" d="M1128 172 H1188"/>
+
+    <!-- Quantized code -->
+    <g transform="translate(1212 96)">
+      <text class="mono ink" x="0" y="10">code</text>
+      <rect class="keep" x="0" y="42" width="210" height="138" rx="10"/>
+      <text class="mono ink" x="24" y="76">20 numbers</text>
+      <text class="tiny muted" x="24" y="99">one vector per 2560 samples</text>
+      <text class="tiny muted" x="24" y="119">each rounded to 16 levels</text>
+      <g transform="translate(24 138)">
+        <circle cx="0" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="22" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="44" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="66" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="88" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="110" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="132" cy="0" r="4" fill="#5074a4"/>
+        <circle cx="154" cy="0" r="4" fill="#5074a4"/>
+      </g>
+      <text class="mono ink" x="0" y="224">80 bits / hop</text>
+      <text class="tiny muted" x="0" y="246">80 x 24000/2560 = 0.75 kbps</text>
+    </g>
+
+    <!-- mini rate ruler -->
+    <g transform="translate(32 472)">
+      <rect class="audio" x="0" y="0" width="198" height="22" rx="4"/>
+      <rect class="audio" x="204" y="0" width="198" height="22" rx="4" opacity="0.55"/>
+      <rect class="audio" x="408" y="0" width="198" height="22" rx="4" opacity="0.32"/>
+      <text class="tiny muted" x="0" y="44">Each 2560-sample hop produces one 20-number code vector. The diagram above shows one hop.</text>
+    </g>
+  </g>
+
+  <!-- Decoder panel -->
+  <g transform="translate(56 710)">
+    <rect class="panel" x="0" y="0" width="1000" height="236" rx="12"/>
+    <text class="h2 ink" x="28" y="42">Decoder: put the missing coordinates back, then unfold</text>
+    <text class="body muted" x="28" y="70">The decoder predicts the red coordinates from the blue code.</text>
+    <text class="body muted" x="28" y="94">Once keep and free are concatenated, the same chart runs backward exactly.</text>
+
+    <g transform="translate(34 112)">
+      <rect class="keep" x="0" y="22" width="116" height="48" rx="6"/>
+      <text class="mono ink" x="28" y="52">code</text>
+      <path class="purple" d="M132 46 H198"/>
+      <rect class="pred" x="214" y="0" width="164" height="92" rx="8"/>
+      <text class="mono ink" x="244" y="34">CodeContext</text>
+      <text class="tiny muted" x="240" y="58">ConvNeXt reads neighboring codes</text>
+      <path class="purple" d="M394 46 H454"/>
+      <rect class="free" x="470" y="10" width="138" height="72" rx="6"/>
+      <text class="mono ink" x="494" y="51">predicted free</text>
+      <path class="arrow" d="M624 46 H678"/>
+      <rect class="decoder" x="694" y="10" width="128" height="72" rx="6"/>
+      <text class="mono ink" x="728" y="39">inverse</text>
+      <text class="tiny ink" x="732" y="58">unfolds to audio</text>
+      <path class="arrow" d="M838 46 H890"/>
+      <rect class="audio" x="906" y="33" width="78" height="26" rx="4"/>
+    </g>
+  </g>
+
+  <!-- Invariant panel -->
+  <g transform="translate(1090 710)">
+    <rect class="panel" x="0" y="0" width="454" height="236" rx="12"/>
+    <text class="h2 ink" x="26" y="42">Why round-trips do not drift</text>
+    <text class="body muted" x="26" y="70">The predicted red coordinates can change the waveform.</text>
+    <text class="body muted" x="26" y="94">Re-encoding keeps the same blue coordinate.</text>
+    <g transform="translate(36 122)">
+      <rect class="keep" x="0" y="0" width="78" height="42" rx="5"/>
+      <text class="mono ink" x="24" y="27">z</text>
+      <path class="green" d="M92 21 H164"/>
+      <text class="tiny muted" x="104" y="13">decode</text>
+      <rect class="audio" x="180" y="0" width="84" height="42" rx="5"/>
+      <path class="green" d="M278 21 H350"/>
+      <text class="tiny muted" x="286" y="13">encode</text>
+      <rect class="keep" x="366" y="0" width="78" height="42" rx="5"/>
+      <text class="mono ink" x="390" y="27">z</text>
+    </g>
+  </g>
+
+  <text class="tiny muted" x="58" y="990">Color key: green = reversible/lossless, red = coordinates not transmitted, blue = transmitted code, purple = decoder prediction.</text>
+</svg>
